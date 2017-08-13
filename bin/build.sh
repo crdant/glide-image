@@ -1,13 +1,39 @@
 #!/bin/bash
 
-stub=$1; shift
+pipelineName= credentialsFile= concourseTarget=
+
+while [ $# -gt 0 ]; do
+  case $1 in
+    -p | --pipeline-name )
+      pipelineName=$2
+      shift
+      ;;
+    -t | --target )
+      concourseTarget=$2
+      shift
+      ;;
+    -j | --job )
+      jobName=$2
+      shift
+      ;;
+    * )
+      echo "Unrecognized option: $1" 1>&2
+      exit 1
+      ;;
+  esac
+  shift
+done
+
 set -e
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )
-export ATC_URL=${ATC_URL:-"http://192.168.100.4:8080"}
-export fly_target=${fly_target:-lite}
-echo "Concourse API target ${fly_target}"
-echo "Concourse API $ATC_URL"
+export concourseTarget=${concourseTarget:-lite}
+echo "Concourse API target ${concourseTarget}"
+export pipelineName=${pipelineName:-`basename $DIR`}
+echo "Pipeline Name ${pipelineName}"
+export jobName=${jobName:-build}
+echo "Job Name ${jobName}"
+
 
 realpath() {
     [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
@@ -20,7 +46,7 @@ usage() {
 }
 
 pushd $DIR
-  fly -t ${fly_target} login
-  fly -t ${fly_target} trigger-job -j glide-image/publish
-  fly -t ${fly_target} watch -j glide-image/publish
+  fly -t ${concourseTarget} login
+  fly -t ${concourseTarget} trigger-job -j ${pipelineName}/${jobName}
+  fly -t ${concourseTarget} watch -j ${pipelineName}/${jobName}
 popd
