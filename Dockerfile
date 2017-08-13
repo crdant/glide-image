@@ -1,3 +1,3 @@
 FROM golang:alpine
 
-ADD glide /go/bin
+ADD linux-amd64/glide /usr/local/bin
