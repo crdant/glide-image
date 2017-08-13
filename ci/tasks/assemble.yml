@@ -1,0 +1,23 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: concourse/buildroot
+    tag: git
+
+inputs:
+  - name: source
+  - name: glide
+
+outputs:
+  - name: build
+
+run:
+  path: source/ci/tasks/assemble.sh
+  args: [
+    --input-dir, source,
+    --glide-release, glide
+    --output-dir, build,
+  ]

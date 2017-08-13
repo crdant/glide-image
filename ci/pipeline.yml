@@ -1,0 +1,37 @@
+---
+jobs:
+- name: publish
+  public: true
+  serial: true
+  plan:
+  - get: source
+    trigger: true
+  - get: glide
+  - task: assemble
+    file: source/ci/tasks/assemble.yml
+  - put: image
+    params:
+      build: source
+
+resources:
+- name: source
+  type: git
+  source:
+    uri: ((git-server-base))/((git-username))/((image-name))
+    branch: ((git-branch))
+
+- name: image
+  type: docker-image
+  source:
+    email: ((docker-hub-email))
+    username: ((docker-hub-username))
+    password: ((docker-hub-password))
+    repository: ((docker-hub-username))/((image-name))
+
+- name: glide
+  type: github-release
+  source:
+    owner: Masterminds
+    repository: glide
+    globs:
+    - *amd64*
