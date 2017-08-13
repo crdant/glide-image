@@ -40,4 +40,4 @@ if [ ! -d "$glideRelease" ]; then
 fi
 
 cp $inputDir/Dockerfile $outputDir
-tar -c $outputDir -xzvf $glideRelease/glide-*-linux-amd64.tar.gz
+tar -C $outputDir -xzvf $glideRelease/glide-*-linux-amd64.tar.gz
