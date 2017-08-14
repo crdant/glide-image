@@ -7,11 +7,14 @@ jobs:
   - get: source
     trigger: true
   - get: glide
+    params:
+      globs:
+        - "*linux-amd64*"
   - task: assemble
     file: source/ci/tasks/assemble.yml
   - put: image
     params:
-      build: source
+      build: build
 
 resources:
 - name: source
@@ -33,5 +36,4 @@ resources:
   source:
     owner: Masterminds
     repository: glide
-    globs:
-    - *amd64*
+    access_token: ((git-token))

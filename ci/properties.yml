@@ -1,3 +1,3 @@
-image-name: serverless-image
+image-name: glide-image
 git-server-base: "https://github.com/"
 git-branch: master
