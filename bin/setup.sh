@@ -69,7 +69,7 @@ usage() {
 
 loginFlags=
 if [ -n "${userName}" ]; then
-  loginFlags="-u ${userName}"
+  loginFlags="-u ${username}"
 fi
 
 if [ -n "${password}" ]; then
