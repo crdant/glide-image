@@ -20,7 +20,7 @@ resources:
 - name: source
   type: git
   source:
-    uri: ((git-server-base))/((git-username))/((image-name))
+    uri: ((git-server-base))/((git-username))/((git-repo-name))
     branch: ((git-branch))
 
 - name: image
