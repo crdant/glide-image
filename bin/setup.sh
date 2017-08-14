@@ -73,7 +73,7 @@ if [ -n "${username}" ]; then
 fi
 
 if [ -n "${password}" ]; then
-  loginFlags="-p ${password}"
+  loginFlags="${loginFlags} -p ${password}"
 fi
 
 if [ -z "${credentialsFile}" ]; then
